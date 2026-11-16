@@ -30,7 +30,9 @@ defmodule LiveDebugger.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :runtime_tools],
+      # `mix playwright.install` downloads the driver with :public_key, which no dependency lists
+      extra_applications:
+        [:logger, :runtime_tools] ++ if(Mix.env() == :test, do: [:public_key], else: []),
       mod: {LiveDebugger, []}
     ]
   end
