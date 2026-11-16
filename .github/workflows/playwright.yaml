@@ -50,8 +50,8 @@ jobs:
           path: |
             deps
             _build
-          key: ${{ matrix.backward-compatibility && 'backward-compatibility-' || '' }}${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ matrix.backward-compatibility && 'backward-compatibility-' || '' }}${{ runner.os }}-mix-
+          key: ${{ matrix.backward-compatibility && 'backward-compatibility-' || '' }}${{ runner.os }}-mix-pkfix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ matrix.backward-compatibility && 'backward-compatibility-' || '' }}${{ runner.os }}-mix-pkfix-
 
       - name: Install Mix Dependencies
         run: mix deps.get
@@ -63,10 +63,10 @@ jobs:
           path: |
             ~/.cache/playwright
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-playwright-pkfix-${{ hashFiles('mix.lock') }}
 
       - name: Install Playwright Dependencies
-        run: MIX_ENV=test mix do compile + playwright.install -- chromium firefox --with-deps
+        run: MIX_ENV=test mix playwright.install -- chromium firefox --with-deps
 
       # The ExUnit port in test/e2e_pw; `mix test --failed` is Playwright Test's retry
       - name: Run Playwright tests
