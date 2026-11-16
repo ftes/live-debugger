@@ -24,8 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - elixir-version: "1.19.1"
-            otp-version: "28.1.1"
+          - elixir-version: "1.19"
+            otp-version: "28"
             backward-compatibility: false
 
     steps:
