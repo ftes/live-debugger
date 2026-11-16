@@ -20,7 +20,10 @@ defmodule LiveDebugger.MixProject do
       test_coverage: [
         ignore_modules: [~r/^LiveDebuggerDev\./, DevWeb]
       ],
-      listeners: [Phoenix.CodeReloader]
+      listeners: [Phoenix.CodeReloader],
+      test_paths: test_paths(System.get_env("E2E")),
+      test_load_filters: test_load_filters(System.get_env("E2E")),
+      test_ignore_filters: [~r"/e2e_pw/support/"]
     ]
   end
 
@@ -35,6 +38,16 @@ defmodule LiveDebugger.MixProject do
   def cli() do
     [preferred_envs: [e2e: :test]]
   end
+
+  # `E2E=1 mix test --only e2e` runs the ExUnit port of the Playwright suite in test/e2e_pw
+  defp test_paths("1"), do: ["test/e2e_pw"]
+  defp test_paths(_), do: ["test"]
+
+  # The unit tests don't load the ExUnit port of the Playwright suite
+  defp test_load_filters("1"), do: [&String.ends_with?(&1, "_test.exs")]
+
+  defp test_load_filters(_),
+    do: [&(String.ends_with?(&1, "_test.exs") and not String.contains?(&1, "/e2e_pw/"))]
 
   defp elixirc_paths(:dev), do: ["lib", "dev"]
 
@@ -87,6 +100,7 @@ defmodule LiveDebugger.MixProject do
       {:esbuild, "~> 0.7", only: :dev},
       {:tailwind, "~> 0.3", only: :dev},
       {:mox, "~> 1.2", only: :test},
+      {:playwright, "~> 1.65.0-rc.1", hex: :playwright_ex, only: :test},
       {:phx_new, "~> 1.7", only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}

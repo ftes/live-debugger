@@ -89,6 +89,11 @@ if config_env() == :test do
   # Initialize plugs at runtime for faster test compilation
   config :phoenix, :plug_init_mode, :runtime
 
+  # The ExUnit port of the Playwright suite (test/e2e_pw), mirroring e2e/playwright.config.ts.
+  config :playwright, :test,
+    context_options: [base_url: "http://localhost:4005"],
+    trace: :retain_on_failure
+
   config :live_debugger,
     dead_view_mode: true,
     garbage_collection: true,
