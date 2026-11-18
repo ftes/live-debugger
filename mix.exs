@@ -103,7 +103,7 @@ defmodule LiveDebugger.MixProject do
       {:tailwind, "~> 0.3", only: :dev},
       {:mox, "~> 1.2", only: :test},
       {:playwright,
-       github: "ftes/playwright_ex", ref: "5fe2de9880c7b7b7b53c947e4ed18ca21d3512cc", only: :test},
+       github: "ftes/playwright_ex", ref: "3e9b47591e9fb72ea2fc1648f485af034c6c111b", only: :test},
       {:phx_new, "~> 1.7", only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
