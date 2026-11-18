@@ -1,8 +1,6 @@
 defmodule LiveDebugger.E2E.DebugButtonPartTest do
   use LiveDebugger.E2E.Case, async: true, parameterize: LiveDebugger.E2E.Case.projects()
 
-  alias Playwright.Mouse
-
   test "debug button position can be customized via ::part(debug-button)", %{page: page} do
     Page.goto!(page, "/")
 
